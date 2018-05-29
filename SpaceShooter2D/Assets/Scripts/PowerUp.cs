@@ -53,6 +53,7 @@ public class PowerUp : MonoBehaviour {
 
             Destroy(this.gameObject);
 
+
             //POWER UP KIND EFFECT ACTIVATION
             if (powerUpKind == PowerUps.tripleShoot)
                 player.TripleShootPowerUpOn(duration);

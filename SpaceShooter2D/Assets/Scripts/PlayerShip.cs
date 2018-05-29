@@ -154,7 +154,7 @@ public class PlayerShip : MonoBehaviour {//monobehaviour permite el comportamien
         //Quaternion.identity-->default position
         //sets the laser to the player position above with no rotation
         //countdown on laser so player is not spaming
-        if (Time.time > _nextFire) //TODO: con Santi. Pooling: solución al problema de rendimiento de crear y destrir objetos constantemente. 
+        if (Time.time > _nextFire) 
         {
             //setting triple shot
             if (canTripleShot == true)
@@ -167,7 +167,11 @@ public class PlayerShip : MonoBehaviour {//monobehaviour permite el comportamien
             {
                 //Play FX!
                 audioController.PlaySound(Sounds.laserSound);
-                Instantiate(_laserPrefab, _transform.position + new Vector3(0, 0.9f, 0), Quaternion.identity);
+
+                //instanciamos el laser del player mediante Poolsystem
+                PoolSystem.SpawnObject(_laserPrefab, PoolTypes.laserPlayer, _transform.position + new Vector3(0, 0.9f, 0));
+                //Instantiate(_laserPrefab, _transform.position + new Vector3(0, 0.9f, 0), Quaternion.identity);
+
             }
             _nextFire = Time.time + _fireRate;
 
@@ -208,14 +212,24 @@ public class PlayerShip : MonoBehaviour {//monobehaviour permite el comportamien
     {
         health.ExtraLife();
         LevelController.instance.uiController.RefreshLives(health.currentHealth);
-        //Play FX!
         LevelController.instance.audioController.PlaySound(Sounds.extraLifeSound);
     }
 
 
     public IEnumerator ShieldCountDown(float duration)
     {
-        yield return new WaitForSeconds(duration);
+        //ponemos el escudo en blanco al empezar la duración
+        shield.GetComponent<SpriteRenderer>().color = Color.white;
+
+        //hacer 2 paradas de duración (de la mitad de duración) del shield
+        yield return new WaitForSeconds(duration/2);
+
+        //poner en rojo
+
+        shield.GetComponent<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(duration/2);
+
+        //desactivamos el escudo
         health.isShieldActive = false;
         shield.SetActive(false);
 

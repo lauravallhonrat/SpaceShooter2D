@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour {
@@ -15,6 +16,8 @@ public class LevelController : MonoBehaviour {
 
     public UIController uiController;
 
+    public Laser laser;
+
     public bool endOfGame;
 
     public static int totalScore;
@@ -26,8 +29,9 @@ public class LevelController : MonoBehaviour {
         instance = this;
         Time.timeScale = 1;
         uiController.gameObject.SetActive(true);
-        totalScore = 0;
 
+        //actualizar la puntuación si estamos en una segunda vuelta del juego (para evitar que salga puntuación 0)
+        AddScore(0);
     }
 
     void Start () {
@@ -35,7 +39,8 @@ public class LevelController : MonoBehaviour {
     }
 
     void Update () {
-
+        if(endOfGame)
+           totalScore = 0;
         
 	}
 
@@ -44,5 +49,14 @@ public class LevelController : MonoBehaviour {
     {
         totalScore += scoreToAdd;
         uiController.scoreText.text = string.Format("Score: {0}", totalScore);
+    }
+
+    public IEnumerator AutoRestart()
+    {
+        //incrementamos la velocidad del laser al finalizar el juego (incremento lineal del juego)
+        laser._speed --; 
+        yield return new WaitForSeconds(30);
+        SceneManager.LoadScene("Game");
+
     }
 }

@@ -14,6 +14,9 @@ public class EnemyShip : Enemy {
 
     [SerializeField]
     GameObject laserPrefab;
+
+    [SerializeField]
+    PoolTypes weaponType = PoolTypes.laserEnemy;
   
     // Use this for initialization
     void Start () {
@@ -42,7 +45,7 @@ public class EnemyShip : Enemy {
             audioController.PlaySound(Sounds.laserSound);
 
             //se spawnea el objeto des del pool system
-            PoolSystem.SpawnObject(laserPrefab, PoolTypes.laserEnemy, laserSpawn.position);
+            PoolSystem.SpawnObject(laserPrefab, weaponType, laserSpawn.position, transform.rotation);
             //Instantiate(laserPrefab, laserSpawn.position,transform.rotation);
             nextFire = Time.time + shootingRate;
         }

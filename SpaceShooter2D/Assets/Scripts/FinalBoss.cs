@@ -102,16 +102,13 @@ public class FinalBoss : MonoBehaviour {
             //FX!
             LevelController.instance.audioController.StopSound(Sounds.finalBossPhase3);
             LevelController.instance.audioController.PlaySound(Sounds.ending);
-            StartCoroutine(AutoRestart());
+
+            //reiniciamos el juego
+            StartCoroutine(LevelController.instance.AutoRestart());
         }
 
     }
-    IEnumerator AutoRestart()
-    {
-        yield return new WaitForSeconds(15);
-        SceneManager.LoadScene("Game");
-
-    }
+    
 
     IEnumerator RandomSuperLaser()
     {

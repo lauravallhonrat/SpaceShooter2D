@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: -7
+  laserType: 2
 --- !u!212 &212403881308837268
 SpriteRenderer:
   m_ObjectHideFlags: 1
