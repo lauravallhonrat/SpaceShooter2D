@@ -54,7 +54,8 @@ public class LevelController : MonoBehaviour {
     public IEnumerator AutoRestart()
     {
         //incrementamos la velocidad del laser al finalizar el juego (incremento lineal del juego)
-        laser._speed --; 
+        laser._speed --;
+        checkPoint = false;
         yield return new WaitForSeconds(30);
         SceneManager.LoadScene("Game");
 
